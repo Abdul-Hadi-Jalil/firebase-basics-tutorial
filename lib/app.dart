@@ -1,5 +1,5 @@
+import 'package:firebase_basics_tutorial/screens/auth_screen.dart';
 import 'package:firebase_basics_tutorial/screens/home_screen.dart';
-import 'package:firebase_basics_tutorial/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -15,7 +15,7 @@ class App extends StatelessWidget {
           if (snapshot.hasData) {
             return HomeScreen();
           } else {
-            return LoginScreen();
+            return AuthScreen();
           }
         },
       ),

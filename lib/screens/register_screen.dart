@@ -1,30 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  final VoidCallback showRegisterScreen;
-  const LoginScreen({super.key, required this.showRegisterScreen});
+class RegisterScreen extends StatefulWidget {
+  final VoidCallback showLoginScreen;
+  const RegisterScreen({super.key, required this.showLoginScreen});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
-  // sign in function
-  void signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
+  // sign up function
+  Future<void> signUp() async {
+    if (_confirmPasswordController.text == _passwordController.text) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+    }
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -43,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Icon(Icons.phone_android, size: 100),
                   SizedBox(height: 70),
                   Text(
-                    'Hello Again!',
+                    'Hello There!',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48),
                   ),
 
@@ -95,11 +100,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
 
+                  SizedBox(height: 10),
+
+                  // confirm password field
+                  TextField(
+                    controller: _confirmPasswordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                        borderSide: BorderSide(color: Colors.deepPurple),
+                      ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      hintText: "Confirm Password",
+                    ),
+                  ),
+
                   SizedBox(height: 25),
 
                   // sign in
                   ElevatedButton(
-                    onPressed: signIn,
+                    onPressed: signUp,
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(
                         Colors.deepPurple,
@@ -115,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     child: Text(
-                      'Sign In',
+                      'Sign Up',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -131,13 +157,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Not a member?',
+                        'Alread have an account?',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       GestureDetector(
-                        onTap: widget.showRegisterScreen,
+                        onTap: widget.showLoginScreen,
                         child: Text(
-                          'Register',
+                          'Login',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.blue,
