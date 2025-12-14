@@ -1,5 +1,5 @@
+import 'package:firebase_basics_tutorial/app.dart';
 import 'package:firebase_basics_tutorial/firebase_options.dart';
-import 'package:firebase_basics_tutorial/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Firebase basics tutorial',
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: App(),
     );
   }
 }
