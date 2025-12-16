@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_basics_tutorial/screens/forgot_pws_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -92,6 +93,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       fillColor: Colors.white,
                       filled: true,
                       hintText: "Password",
+                    ),
+                  ),
+
+                  // forgot password
+                  Align(
+                    heightFactor: 2,
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ForgotPwsScreen();
+                            },
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "forgot password",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
 
