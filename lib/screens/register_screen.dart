@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,15 +15,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
 
   // sign up function
   Future<void> signUp() async {
     if (_confirmPasswordController.text == _passwordController.text) {
+      // creating a new user
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
     }
+
+    // adding new user details
+    await FirebaseFirestore.instance.collection('users').add({
+      "first name": _firstNameController.text,
+      "last name": _lastNameController.text,
+      "email": _emailController.text,
+    });
   }
 
   @override
@@ -30,6 +41,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     super.dispose();
   }
 
@@ -60,6 +73,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                   SizedBox(height: 35),
+
+                  // first name field
+                  TextField(
+                    controller: _firstNameController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                        borderSide: BorderSide(color: Colors.deepPurple),
+                      ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      hintText: "First Name",
+                    ),
+                  ),
+
+                  SizedBox(height: 10),
+
+                  // last name field
+                  TextField(
+                    controller: _lastNameController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                        borderSide: BorderSide(color: Colors.deepPurple),
+                      ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      hintText: "Last Name",
+                    ),
+                  ),
+
+                  SizedBox(height: 10),
 
                   // email text field
                   TextField(
